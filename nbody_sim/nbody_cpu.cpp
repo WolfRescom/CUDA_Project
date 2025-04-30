@@ -11,7 +11,8 @@
 #include <chrono>
 
 const int N = 1024;
-const float G = 6.67430e-11f;
+// const float G = 6.67430e-11f;
+const float G = 1;
 // const float dt = 1e3f;
 const float dt = 0.01f;
 // const int STEPS = 500;
@@ -62,7 +63,7 @@ int main() {
         // b.mass = 1e22f + (rand() % 100000);
 
         initialize_spiral_galaxy(bodies);
-    } // shh i'll keep it a secret bro
+    }
 
     std::ofstream out("cpu_output.json");
     out << "[\n";

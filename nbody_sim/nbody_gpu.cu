@@ -49,6 +49,37 @@ void spiralGalaxyInit(std::vector<Body>& bodies, int N, float centerX, float cen
     }
 }
 
+void initialize_spiral_galaxy(std::vector<Body>& bodies, int num_arms = 2, float arm_spread = 0.5f, float galaxy_radius = 1e9f) {
+    const float center_x = 0.0f;
+    const float center_y = 0.0f;
+    const float mass_min = 1e22f;
+    const float mass_variation = 1e5f;
+
+    for (int i = 0; i < bodies.size(); ++i) {
+        float t = static_cast<float>(i) / bodies.size();
+        float radius = t * galaxy_radius;
+        float angle = t * num_arms * 2.0f * M_PI + arm_spread * (static_cast<float>(rand()) / RAND_MAX - 0.5f);
+        float x = radius * cos(angle);
+        float y = radius * sin(angle);
+
+        // Circular orbit velocity approximation
+        float dist = sqrt(x * x + y * y);
+        float vel = sqrt(1.0f * 1e24f / (dist + 1e6f)); // Central mass (e.g., black hole at galaxy center)
+
+        float vx = -vel * sin(angle);
+        float vy = vel * cos(angle);
+
+        // bodies[i].x = center_x + x;
+        // bodies[i].y = center_y + y;
+        bodies[i].pos = make_float2(x, y);
+        // bodies[i].vx = vx;
+        // bodies[i].vy = vy;
+        bodies[i].vel = make_float2(vx, vy);
+        bodies[i].acc = make_float2(0.0f, 0.0f);
+        bodies[i].mass = mass_min + (rand() % static_cast<int>(mass_variation));
+    }
+}
+
 __global__ void update(Body* bodies, int n, float dt)
 {
     int i = blockIdx.x*blockDim.x + threadIdx.x;
@@ -98,12 +129,23 @@ int main()
     const float dt = 0.01f;
     const int steps = 1000;
 
-    std::vector<Body> hostP(N);
+    // std::vector<Body> hostP(N);
     
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
+    // for (int i = 0; i < 8; i++) {
+    //     for (int j = 0; j < 8; j++) {
 
-        }
+    //     }
+    // }
+
+    std::vector<Body> hostP(N);
+    for (auto& bodies : hostP) {
+        // b.x = (rand() % 2000000000 - 1000000000);
+        // b.y = (rand() % 2000000000 - 1000000000);
+        // b.vx = 0.0f;
+        // b.vy = 0.0f;
+        // b.mass = 1e22f + (rand() % 100000);
+
+        initialize_spiral_galaxy(hostP);
     }
 
     // for(int i = 0; i < N; ++i) 
