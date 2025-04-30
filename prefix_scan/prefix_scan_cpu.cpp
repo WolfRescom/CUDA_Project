@@ -26,7 +26,8 @@ int main() {
   prefix_scan(input, output, numElements);
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-  printf("CPU prefix scan took %ld microseconds\n", duration.count());
+  printf("\nFor array with %d elements...\n", numElements);
+  printf("CPU prefix scan took %ld microseconds\n\n", duration.count());
 
   return 0;
 }

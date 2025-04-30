@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std::chrono;
 
-#define numElements 200000
+#define numElements 1000000
 
 void radix_sort(int input[], int n) {
   int temp[n];
@@ -48,11 +48,11 @@ int main() {
     input[i] = rand() % 100;
   }
 
-  printf("Input array: ");
-  for (int i = 0; i < numElements; i++) {
-    printf("%d ", input[i]);
-  }
-  printf("\n");
+  // printf("Input array: ");
+  // for (int i = 0; i < numElements; i++) {
+  //   printf("%d ", input[i]);
+  // }
+  // printf("\n");
 
   auto start = high_resolution_clock::now();
   radix_sort(input, numElements);
@@ -60,11 +60,11 @@ int main() {
   auto duration = duration_cast<microseconds>(stop - start);
   printf("CPU radix sort took %ld microseconds\n", duration.count());
 
-  printf("Sorted array: ");
-  for (int i = 0; i < numElements; i++) {
-    printf("%d ", input[i]);
-  }
-  printf("\n");
+  // printf("Sorted array: ");
+  // for (int i = 0; i < numElements; i++) {
+  //   printf("%d ", input[i]);
+  // }
+  // printf("\n");
 
   return 0;
 }

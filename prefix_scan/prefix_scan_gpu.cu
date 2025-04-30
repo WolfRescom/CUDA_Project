@@ -68,7 +68,8 @@ int main() {
 
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-  printf("GPU prefix scan took %ld microseconds\n", duration.count());
+  printf("\nFor array with %d elements...\n", numElements);
+  printf("GPU prefix scan took %ld microseconds\n\n", duration.count());
 
 
   cudaMemcpy(host_array, device_array, numElements * sizeof(int), cudaMemcpyDeviceToHost);

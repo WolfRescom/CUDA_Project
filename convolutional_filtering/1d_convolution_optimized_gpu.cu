@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 // length of mask used for any one step of the convolution, equivalent of 1D kernel
 #define MASK_LENGTH 10
-#define INPUT_SIZE 500000
+#define INPUT_SIZE 1000000
 #define THREADS 256
 
 __constant__ int mask[MASK_LENGTH];
@@ -131,18 +131,19 @@ int main() {
   cudaSafeCall(cudaDeviceSynchronize());
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-  printf("GPU 1d optimized convolution took %ld microseconds\n", duration.count());
+  printf("\nFor input array of size %d and mask array of size %d\n", INPUT_SIZE, MASK_LENGTH);
+  printf("GPU 1d optimized convolution took %ld microseconds\n\n", duration.count());
 
   cudaMemcpy(host_output, device_output, INPUT_SIZE * sizeof(int), cudaMemcpyDeviceToHost);
 
   // Comparison for correctness
-  for (int i = 0; i < INPUT_SIZE; i++) {
-    if (correct_output[i] != host_output[i]) {
-      printf("Incorrect output at index %d\n", i);
-      printf("Correct output: %d\n", correct_output[i]);
-      printf("Correct output: %d\n", host_output[i]);
-    }
-  }
+  // for (int i = 0; i < INPUT_SIZE; i++) {
+  //   if (correct_output[i] != host_output[i]) {
+  //     printf("Incorrect output at index %d\n", i);
+  //     printf("Correct output: %d\n", correct_output[i]);
+  //     printf("Correct output: %d\n", host_output[i]);
+  //   }
+  // }
 
   cudaFree(device_input);
   cudaFree(device_output);

@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 // length of mask used for any one step of the convolution, equivalent of 1D kernel
 #define MASK_LENGTH 10
-#define INPUT_SIZE 500000
+#define INPUT_SIZE 1000000
 #define THREADS 256
 
 #define cudaSafeCall(func) { gpuAssert((func), #func, __FILE__, __LINE__); }

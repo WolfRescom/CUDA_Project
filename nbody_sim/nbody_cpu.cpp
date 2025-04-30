@@ -10,13 +10,12 @@
 
 #include <chrono>
 
-const int N = 1024;
-// const float G = 6.67430e-11f;
-const float G = 1;
+const int N = 10000;
+const float G = 6.67430e-11f;
 // const float dt = 1e3f;
 const float dt = 0.01f;
 // const int STEPS = 500;
-const int STEPS = 1000;
+const int STEPS = 100;
 
 struct Body {
     float x, y;
@@ -56,14 +55,14 @@ void initialize_spiral_galaxy(std::vector<Body>& bodies, int num_arms = 2, float
 int main() {
     std::vector<Body> bodies(N);
     for (auto& b : bodies) {
-        // b.x = (rand() % 2000000000 - 1000000000);
-        // b.y = (rand() % 2000000000 - 1000000000);
-        // b.vx = 0.0f;
-        // b.vy = 0.0f;
-        // b.mass = 1e22f + (rand() % 100000);
+        b.x = (rand() % 2000000000 - 1000000000);
+        b.y = (rand() % 2000000000 - 1000000000);
+        b.vx = 0.0f;
+        b.vy = 0.0f;
+        b.mass = 1e22f + (rand() % 100000);
 
-        initialize_spiral_galaxy(bodies);
-    }
+        // initialize_spiral_galaxy(bodies);
+    } // shh i'll keep it a secret bro
 
     std::ofstream out("cpu_output.json");
     out << "[\n";
@@ -103,7 +102,9 @@ int main() {
     }
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << "CPU N-body Simulation time taken: " << duration.count() << " microseconds" << std::endl;
+
+    printf("\nFor %d objects over %d steps...\n", N, STEPS);
+    std::cout << "CPU N-body Simulation time taken: " << duration.count() << " microseconds\n" << std::endl;
 
     out << "]\n";
     return 0;
